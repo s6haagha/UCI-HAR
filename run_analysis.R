@@ -58,11 +58,6 @@ names(extracted_data) <- column_names
 
 ## Tidy dataset
 tidy_data <- extracted_data
-    
-## The second tidy dataset
-tidy_data_2 <-   tidy_data %>%
-    group_by(Subject, Activity) %>%
-    summarise_all(.funs = mean)
 
 ## Exporting
 write.table(tidy_data, "../UCI-HAR/FinalData.txt", row.name=FALSE)
