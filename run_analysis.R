@@ -1,5 +1,5 @@
 ## Setting directory
-setwd("./UCI HAR Dataset")
+setwd("../UCI HAR Dataset")
 
 ## loading the necessary packages
 library(data.table)
@@ -65,6 +65,6 @@ tidy_data_2 <-   tidy_data %>%
     summarise_all(funs(mean))
 
 ## Exporting
-write.table(tidy_data_2, "FinalData.txt", row.name=FALSE)
+write.table(tidy_data_2, "../UCI-HAR/FinalData.txt", row.name=FALSE)
 
 
