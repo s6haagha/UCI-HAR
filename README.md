@@ -1,4 +1,4 @@
-# Raw data
+# Raw datasets
 
 The raw data consists of three test and three training datasets.
 Both test and training datasets consist of X, Y and subject datasets.
