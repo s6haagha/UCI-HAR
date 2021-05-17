@@ -3,7 +3,6 @@ setwd("../UCI HAR Dataset")
 
 ## loading the necessary packages
 library(data.table)
-library(reshape2)
 library(dplyr)
 
 ## reading activity labels
@@ -14,7 +13,8 @@ features <- read.table("features.txt", col.names=c("n","features"))
 
 ## reading test datasets
 subject_test <- read.table("./test/subject_test.txt", col.names = "subject")
-x_test <- read.table("./test/X_test.txt", col.names = features$features)
+x_test <- read.table("./test/X_test.txt")
+names(x_test) = features$features
 y_test <- read.table("./test/y_test.txt", col.names = "code")
 
 ## merging the test datasets
@@ -22,7 +22,8 @@ test <- cbind(subject_test, y_test, x_test)
 
 ## reading the train datasets
 subject_train <- read.table("./train/subject_train.txt", col.names = "subject")
-x_train <- read.table("./train/X_train.txt", col.names = features$features)
+x_train <- read.table("./train/X_train.txt")
+names(x_train) = features$features
 y_train <- read.table("./train/y_train.txt", col.names = "code")
 
 ## Merging the train datasets
@@ -32,7 +33,8 @@ train <- cbind(subject_train, y_train, x_train)
 test_train <- rbind(train, test)
 
 # Extract only the measurements mean and standard deviation for each subjec and code.
-extracted_data <- test_train %>% select(subject, code, contains("mean"), contains("std"))
+ext_columns <- c("subject", "code",grep("mean|std", names(test_train), value = TRUE))
+extracted_data <- test_train[, ext_columns]
 
 ## Replacing activity codes with activity labels
 for (i in 1:6) {
@@ -40,7 +42,7 @@ for (i in 1:6) {
 }
 
 ## Renaming variables
-column_names <- names(extracted_data)
+column_names <- ext_columns
 column_names[column_names=="subject"] <- "Subject"
 column_names[column_names=="code"] <- "Activity"
 column_names <- gsub("^t", "Time", column_names)
